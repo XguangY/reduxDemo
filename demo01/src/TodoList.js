@@ -1,27 +1,35 @@
 import React, { Component } from 'react'
 import 'antd/dist/antd.css'
-import { Input, Button, List } from 'antd'
+import { Button, Input, List } from 'antd'
 import store from './store'
 
 class TodoList extends Component {
-
     constructor(props) {
         super(props)
         this.state = store.getState()
+        this.changeInputValue = this.changeInputValue.bind(this)
+        this.storeChange = this.storeChange.bind(this)
+        this.clickBtn = this.clickBtn.bind(this)
+        store.subscribe(this.storeChange)
     }
-
     render() {
         return (
-            <div style= {{ margin: '10px' }}>
+            <div style={{margin: '10px'}}>
                 <div>
                     <Input
                         placeholder={this.state.inputValue}
-                        style={{ width: '250px', marginRight: '10px' }}
+                        style={{marginRight: '10px', width:'250px'}}
+                        onChange={this.changeInputValue}
+                        value={this.state.inputValue}
                     />
-                    <Button type="primary">ADD</Button>
+                    <Button 
+                        type="primary"
+                        onClick={this.clickBtn}>
+                        添加
+                    </Button>
                 </div>
-                <div style={{ margin: '10px', width: '300px' }}>
-                    <List
+                <div style={{width: '300px', margin: '10px'}}>
+                    <List 
                         bordered
                         dataSource={this.state.list}
                         renderItem={item => (<List.Item>{item}</List.Item>)}
@@ -29,6 +37,20 @@ class TodoList extends Component {
                 </div>
             </div>
         )
+    }
+    changeInputValue(e) {
+        const action = {
+            type: 'changeInput',
+            value: e.target.value
+        }
+        store.dispatch(action)
+    }
+    storeChange(e) {
+        this.setState(store.getState())
+    }
+    clickBtn() {
+        const action = {type: 'addItem'}
+        store.dispatch(action)
     }
 }
 
