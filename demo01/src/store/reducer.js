@@ -21,5 +21,10 @@ export default (state = defaultState, action) => {
         newState.inputValue = ''
         return newState
     }
+    if(action.type === 'deleteItem' ){ //根据type值，编写业务逻辑
+        let newState = JSON.parse(JSON.stringify(state)) 
+        newState.list.splice(action.index, 1)  //push新的内容到列表中去
+        return newState
+    }
     return state
 }
