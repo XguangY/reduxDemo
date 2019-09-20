@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
-import 'antd/dist/antd.css'
-import { Button, Input, List } from 'antd'
 import store from './store'
 import { changeItemAction, addItemAction, deleteItemAction } from './store/actionCreators'
-
+import ToDoListUI from './ToDoListUI'
 class TodoList extends Component {
     constructor(props) {
         super(props)
@@ -11,36 +9,18 @@ class TodoList extends Component {
         this.changeInputValue = this.changeInputValue.bind(this)
         this.storeChange = this.storeChange.bind(this)
         this.clickBtn = this.clickBtn.bind(this)
+        this.deleteItem = this.deleteItem.bind(this)
         store.subscribe(this.storeChange)
     }
     render() {
         return (
-            <div style={{margin: '10px'}}>
-                <div>
-                    <Input
-                        placeholder={this.state.inputValue}
-                        style={{marginRight: '10px', width:'250px'}}
-                        onChange={this.changeInputValue}
-                        value={this.state.inputValue}
-                    />
-                    <Button 
-                        type="primary"
-                        onClick={this.clickBtn}>
-                        添加
-                    </Button>
-                </div>
-                <div style={{width: '300px', margin: '10px'}}>
-                    <List 
-                        bordered
-                        dataSource={this.state.list}
-                        renderItem={ (item, index) => (
-                            <List.Item onClick={this.deleteItem.bind(this,index)}>
-                              {item}
-                            </List.Item>
-                        )}
-                    />
-                </div>
-            </div>
+           <ToDoListUI
+           inputValue={this.state.inputValue}
+           changeInputValue={this.changeInputValue}
+           clickBtn={this.clickBtn}
+           deleteItem={this.deleteItem}
+           list={this.state.list}
+           />
         )
     }
     changeInputValue(e) {
