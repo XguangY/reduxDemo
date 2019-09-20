@@ -1,11 +1,7 @@
-import { CHANGE_INPUT, ADD_ITEM, DELETE_ITEM } from './actionType'
+import { CHANGE_INPUT, ADD_ITEM, DELETE_ITEM, GET_LIST } from './actionType'
 const defaultState = {
     inputValue: '输入，输入2222',
-    list: [
-        'aaa',
-        'bbbbb',
-        '阿凡达速度发发顺丰的所得税法'
-    ]
+    list: []
 }
 
 export default (state = defaultState, action) => {
@@ -25,6 +21,11 @@ export default (state = defaultState, action) => {
     if(action.type === DELETE_ITEM ){ //根据type值，编写业务逻辑
         let newState = JSON.parse(JSON.stringify(state)) 
         newState.list.splice(action.index, 1)  //push新的内容到列表中去
+        return newState
+    }
+    if(action.type === GET_LIST ){ //根据type值，编写业务逻辑
+        let newState = JSON.parse(JSON.stringify(state)) 
+        newState.list = action.data
         return newState
     }
     return state
