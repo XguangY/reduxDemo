@@ -1,4 +1,4 @@
-import { CHANGE_INPUT, ADD_ITEM, DELETE_ITEM, GET_LIST } from './actionType'
+import { CHANGE_INPUT, ADD_ITEM, DELETE_ITEM, GET_LIST, GET_MY_LIST } from './actionType'
 import axios from 'axios'
 export const changeItemAction = (value) => ({
     type: CHANGE_INPUT,
@@ -34,3 +34,8 @@ export const getToDoList = () => {
         dispatch(action)
     }
 }
+
+
+export const getMyActionList = () => ({
+    type: GET_MY_LIST
+})
