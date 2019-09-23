@@ -1,32 +1,55 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux'
-class ToDoList extends Component {
-    constructor(props) {
-        super(props);
-    }
-    render() {
-        return (
+
+const ToDoList = (props) => {
+    let { inputValue, inputChange, inputBtn, list } = props
+    return (
+        <div>
             <div>
                 <div>
-                    <div>
-                        <input value={this.props.inputValue} />
-                        <button>提交</button>
-                    </div>
-                    <div>
-                        <ul>
-                            <li>啊啊啊啊</li>
-                        </ul>
-                    </div>
+                    <input
+                        value={inputValue}
+                        onChange={inputChange} />
+                    <button
+                        onClick={inputBtn}>提交</button>
+                </div>
+                <div>
+                    <ul>
+                        {
+                            list.map((item, index) => {
+                                return (<li key={index}>{item}</li>)
+                            })
+                        }
+                    </ul>
                 </div>
             </div>
-        );
-    }
+        </div>
+    );
 }
 
 const stateToProps = (state) => {
     return {
-        inputValue: state.inputValue
+        inputValue: state.inputValue,
+        list: state.list
     }
 }
 
-export default connect(stateToProps, null)(ToDoList);
+const dispatchToProps = (dispatch) => {
+    return {
+        inputChange(e) {
+            let action = {
+                type: 'change_input',
+                value: e.target.value
+            }
+            dispatch(action)
+        },
+        inputBtn() {
+            let action = {
+                type: 'add_list'
+            }
+            dispatch(action)
+        }
+    }
+}
+
+export default connect(stateToProps, dispatchToProps)(ToDoList);
